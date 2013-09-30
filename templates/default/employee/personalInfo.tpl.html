@@ -1,0 +1,650 @@
+{assign var=gender value=$util->get_values_from_config('GENDER')}
+{assign var=ms value=$util->get_values_from_config('MARITAL_STATUS')}
+<input type="hidden" name="is_reset" id="is_reset" value="">
+<div class="cont">
+    <div class="cont_bg_top"></div>
+    <div class="cont_bg_mdl">
+    	<div class="message">{include file="employee/message"}</div>    
+        <form id="personal_info" name="personal_info" method="post" action="javascript:void(0);" enctype="multipart/form-data">
+        <input type="hidden" name="update_id" value="{$sm.res.id_employee}" id="upd_id">
+        <div class="content">
+        	{include file="employee/leftPan"}
+			{include file="employee/rightPan"}
+            <div>
+            <div class="cont_hdr1 fltlft" style="padding-left:10px;">
+                <div class="cont_hdr_lft fltlft"></div>
+                <div class="cont_hdr_mdl1 fltlft" style="width:881px;">Personal information</div>
+                <div class="cont_hdr_rht fltlft"></div>
+            </div>
+            <div class="clear"></div>
+            
+<div class="cont_txt" style="margin-left:10px;">
+                        <div class="txtbg_top fltlft"></div>
+                        <div class="txtbg_mdl fltlft">
+                <table border="0" width="95%" class="mrgtp0" align="center">
+                    <tr>
+                        <td>
+                            <table border="0" width="100%">
+                    <tr>
+                        <td>Staff Id:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.staff_id|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[staff_id]" value="{$sm.res.staff_id}" id="staff_id" class="text"/>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ad Account Id:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.ad_account_id|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[ad_account_id]" value="{$sm.res.ad_account_id}" id="ad_account_id" class="text"/>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Account Password:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.ad_password|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[ad_password]" value="{$sm.res.ad_password}" id="ad_password" class="text"/>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>section:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.section|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[section]" value="{$sm.res.section}" id="section" class="text"/>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Card #:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.card|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[card]" value="{$sm.res.card}" id="card" class="text" onblur="return checkCard();"/><br>
+					<span id="msg_card" class="error">
+                            </span><br>
+							<input type="button" value="Check" class="button" onclick="onClick_ckBtn()" style="" id="ckBtn"/><br>
+							<div style="width:200px;height:150px;border:1px solid #999999;overflow-x:hidden;overflow-y:auto;" id="check_card_container"></div></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Site/Device: </td>
+                        <td align="left">
+                            <span class="detail">{$sm.dg_val|default:"NA"}</span>
+                            <span class="edit_detail">
+								<select id="dg" tabindex="15" name="dg" >
+									<option value="">-- Select --</option>
+									{html_options options=$sm.dg selected=$sm.dg_id}
+								</select>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Time Schedule Group: </td>
+                        <td align="left">
+                            <span class="detail">{$sm.tg_val|default:"Define"}</span>
+                            <span class="edit_detail">
+								<select id="tg" tabindex="15" name="tg" onchange="onChange_tg(this)">
+									<option value="0">Define</option>
+									<!--{html_options options=$sm.tg selected=$sm.tg_id}-->
+								</select>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Time Schedule: </td>
+                        <td align="left">
+                            <span class="detail">
+								<table border="0" cellpadding="0" cellspacing="0" style="margin-top:0px;">
+									<tr>
+										<td align="left" style="padding-right:20px;">
+											{$sm.tz1_val|default:""}
+										</td>
+										<td align="left" style="padding-right:20px;">
+											/
+										</td><!--
+										<td align="left" style="padding-right:20px;">
+											{$sm.tz2_val|default:""}
+										</td>
+										<td align="left" style="padding-right:20px;">
+											/
+										</td>-->
+										<td align="left" style="padding-right:20px;">
+											{$sm.tz3_val|default:""}
+										</td>
+									</tr>
+								</table></span>
+                            <span class="edit_detail">
+								<table border="0" cellpadding="0" cellspacing="0" style="margin-top:0;height:32px">
+									<tr>
+										<td align="left">
+											<select id="tz1" name="tz1" class="tz"  tabindex="16" style="width:110px;" onchange="onChange_normal()">
+												<option value=""></option>
+												{html_options options=$sm.tz selected=$sm.tz1_id }
+											</select>
+										</td><!--
+										<td align="left">
+											<select id="tz2" name="tz2" class="tz"  tabindex="16" style="width:110px;">
+												<option value=""></option>
+												{html_options options=$sm.tz1 selected=$sm.tz2_id }
+											</select>
+										</td>-->
+										<td align="left">
+											<select id="tz3" name="tz3" class="tz"  tabindex="16" style="width:110px;">
+												<option value=""></option>
+												{html_options options=$sm.tz2 selected=$sm.tz3_id }
+											</select>
+										</td>
+									</tr>
+								</table>
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td width="20%">memo:</td>
+                        <td width="80%">
+                            <span class="detail">{$sm.res.memo|default:'NA'|capitalize:true}</span>
+                            <span class="edit_detail"><textarea name="employee[memo]" id="memo" class="text" rows="5">{$sm.res.memo}</textarea></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%">Address:</td>
+                        <td width="80%">
+                            <span class="detail">{$sm.res.address|default:'NA'|capitalize:true}</span>
+                            <span class="edit_detail"><textarea name="employee[address]" id="address" class="text" rows="5">{$sm.res.address}</textarea></span>
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Country:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.country|default:"NA"|capitalize}</span>
+                            <span class="edit_detail">
+                                <select name="employee[country]" onchange="showStateCity(this,'state','city','1');" id="country">
+                                    <option value="">-- Select --</option>
+                                    {html_options options=$sm.country selected=""}
+                                </select>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>State:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.state|default:"NA"|capitalize}</span>
+                            <span class="edit_detail">
+                                <select name="employee[state]" id="state" onchange="showStateCity(this,'city','','2');" >
+                                    <option value="">-- Select --</option>
+                                    {html_options options=$sm.state selected=""}
+                                </select>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>City:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.city|default:"NA"|capitalize}</span>
+                            <span class="edit_detail">
+                                <select name="employee[city]" id="city" onchange="putCityValue(this);">
+                                    <option value="">-- Select --</option>
+                                    {html_options options=$sm.city selected=""}
+                                </select>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Zip code:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.zipcode|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[zipcode]" value="{$sm.res.zipcode}" id="zipcode" class="text"/>
+                            </span>
+                        </td>
+                    </tr>
+                    
+                    <tr style="display:none">
+                        <td>CV:</td>
+                        <td align="left">
+                            {assign var=cv_name value=$sm.res.cv|@strstr:"_"|@substr:"1"}
+                            <span class="detail">{if $sm.res.cv}<a href="##LBL_SITE_URL##index.php/employee/downloadCv/ce-0-cv-{$sm.res.cv}" title="Download cv" style="cursor:s-resize;">{$cv_name}</a>{else}NA{/if}</span>
+                            <span class="edit_detail">
+                                <input type="file" name="upload_cv" value="" id="cv" size="19"/><br>
+                                <input type="hidden" name="prev_cv" value="{$sm.res.cv}" />
+                                {if $sm.res.cv}
+                                <span id="remove_cv">
+                                    <a href="##LBL_SITE_URL##index.php/employee/downloadCv/ce-0-cv-{$sm.res.cv}" title="Download cv" style="cursor:s-resize;">{$cv_name}</a>&emsp;&emsp;&emsp; <a onclick="removeCv('{$sm.res.cv}','');" style="cursor:pointer;"><b>Remove this CV</b></a>
+                                </span>
+                                {/if}
+                            </span>
+                        </td>
+                    </tr>
+    
+                    <tr style="display:none">
+                        <td>Work e-mail:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.work_email|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[work_email]" value="{$sm.res.work_email}" id="work_email" class="text" {if $smarty.session.id_employee}readonly="true"{/if}/>
+                            </span>	
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Private e-mail:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.other_email|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[other_email]" value="{$sm.res.other_email}" id="other_email" class="text"/>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mobile phone:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.mobile_phone|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[mobile_phone]" value="{$sm.res.mobile_phone}" id="mobile_phone" class="text"/>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Work phone:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.work_phone|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[work_phone]" value="{$sm.res.work_phone}" id="work_phone" class="text"/>
+                            </span>	
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Home phone:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.home_phone|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[home_phone]" value="{$sm.res.home_phone}" id="home_phone" class="text"/>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Card Release Date:</td>
+                        <td align="left">
+                            <span class="detail">{if $sm.res.joined_date eq '0000-00-00'}NA{else}{$sm.res.joined_date|date_format:'%d-%m-%Y'}{/if}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="joined_date" value="{if $sm.res.joined_date eq '0000-00-00'}{else}{$sm.res.joined_date|date_format:'%d-%m-%Y'}{/if}" id="joined_date" class="text"/>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Gender:</td>
+                        <td align="left">
+                            <span class="detail">{if $sm.res.gender eq 'M'}Male{else}Female{/if}</span>
+                            <span class="edit_detail">
+                                {html_radios name="employee[gender]" options=$gender selected=$sm.res.gender separator="" }
+                            </span>
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Marital status:</td>
+                        <td align="left">
+                            <span class="detail">
+                            {if $sm.res.marital_status}{$ms[$sm.res.marital_status]}{else}NA{/if}
+                            </span>
+                            <span class="edit_detail">
+                                <select name="employee[marital_status]" id="marital_status">
+                                    <option value="">-- Select --</option>
+                                    {html_options options=$ms selected=$sm.res.marital_status}
+                                </select>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Social security no:</td>
+                        <td align="left">
+                            <span class="detail">{$sm.res.ssn_no|default:"NA"}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[ssn_no]" value="{$sm.res.ssn_no}" id="ssn_no" class="text"/>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Nationality/race:</td>
+                        <td align="left">
+                            <span class="detail">{if $sm.res.nationality}{$sm.res.nationality|capitalize:true}{else}NA{/if}</span>
+                            <span class="edit_detail">
+                                <input type="text" name="employee[nationality]" value="{if $sm.res.nationality}{$sm.res.nationality}{/if}" id="nationality" class="text"/>
+                            </span>
+                        </td>
+                    </tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+                    <tr>
+                    	<td></td>
+                        	 <td>
+                            <span class="detail">
+                                <input type="button" name="edit" value="Edit" onclick="editDetail();" class="login_btn">
+                            </span>
+                            <span class="edit_detail">
+                                <input type="button" id="save_btn" name="save" value="Save" onclick="saveEmployee();" class="login_btn">
+                                <input type="button" name="reset" value="Reset" onclick="resetForm('employeeDetail');" class="login_btn">
+                                <input type="button" name="update" value="Update Device" class="login_btn update_btn">
+                            </span>
+                            {if $smarty.session.id_company}
+                            <span class="detail">
+                                <input type="button" name="cancel" value="Back" onclick="cancelDetail();" class="login_btn">
+                            </span>
+                            {/if}
+                            <span class="edit_detail">
+                                <input type="button" name="cancel_edit" value="Back" onclick="back();" class="login_btn">
+                            </span>
+
+                        </td>
+                    </tr>
+                </table>
+                        </td>
+                    </tr>
+                </table>
+                
+                     </div>
+                        <div class="txtbg_btm fltlft"></div>
+                        <div class="clrbth"></div>
+</div>
+            </div>
+            <div class="clear"></div>
+        </div>
+		<input type="hidden" id="emp_status" value="{$sm.emp_status_val|default:''}" />
+		<input type="hidden" id="is_update_device" name="is_update_device" value="" />
+        </form>
+    </div>
+    <div class="cont_bg_btm"></div>
+</div>
+{literal}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.update_btn').click(function(){
+		var tz = $('#tz1').val();
+		var cs = $('#emp_status').val();
+		var c_no = $('#card').val();
+		var site = $('#dg').val();
+		if(!tz || cs!='1' || !c_no || !site){
+			alert('Weekday, Card #, Site/Device must not empty.\nCard Status must be active');
+		}else{
+			$('#is_update_device').val('1');
+			$('#save_btn').click();
+		}
+	});
+
+
+	$('#joined_date').datepicker({dateFormat:'dd-mm-yy',changeMonth:true,changeYear:true,yearRange:"-100:+40"});	
+	var wel_flag_emp = "{/literal}{if $smarty.session.id_employee}{$smarty.session.wel_flag_emp}{else}0{/if}{literal}";
+	if(parseInt(wel_flag_emp)){
+		cShowActivity('');
+		var url = "##LBL_SITE_URL##";
+		$.post(url,{page:'employee',choice:'welcomeEmployee',ce:0},function(res){
+			wel_flag_emp = 0;
+			show_fancybox(res);
+		 });
+	}else{
+		return true;
+	}
+});
+// To select country,state,city
+if('{/literal}{$sm.res.country}{literal}'!=''){
+	$("#country").val('{/literal}{$sm.res.country}{literal}');
+	var obj=document.getElementById('country');
+	obj.options[obj.selectedIndex].value=obj.options[obj.selectedIndex].text;
+}
+if('{/literal}{$sm.res.state}{literal}'!=''){
+	$("#state").val('{/literal}{$sm.res.state}{literal}');
+	var obj=document.getElementById('state');
+	obj.options[obj.selectedIndex].value=obj.options[obj.selectedIndex].text;
+}
+if('{/literal}{$sm.res.city}{literal}'!=''){
+	$("#city").val('{/literal}{$sm.res.city}{literal}');
+	var obj=document.getElementById('city');
+	obj.options[obj.selectedIndex].value=obj.options[obj.selectedIndex].text;
+}
+
+function onChange_tg(obj){
+	if($(obj).val()!=0){
+		$('.tz').fadeOut(200);
+		$('.tz').val('');
+	}else{
+		$('.tz').fadeIn(200);
+	}
+}
+function onChange_normal(){
+	if($('#tz1').val()==50){
+		$('#tz3').val('');
+		$('#tz3').fadeOut(200);
+		$('#tz2').val('');
+		$('#tz2').fadeOut(200);
+	}else{
+		$('#tz3').fadeIn(200);
+		$('#tz2').fadeIn(200);
+	}
+}
+onChange_normal();
+function showStateCity(obj,id1,id2,lvl){
+	var id = obj.value;
+	var url = "##LBL_SITE_URL##index.php/";
+	$.post(url,{page:"employee",choice:"showStateCity",ce:0,id:id,flg:id1},function(res){
+		$('#'+id1).html(res);
+		if(lvl==1){
+			$('#'+id2).html('<option value="">-- Select --</option>');
+		}
+	});
+	var x=obj.selectedIndex;
+	if(x!=0){
+		obj.options[x].value=obj.options[x].text;
+	}
+}
+function putCityValue(obj){
+	var x=obj.selectedIndex;
+	if(x!=0){
+		obj.options[x].value=obj.options[x].text;
+	}
+}
+
+function checkCard(){
+	var emp_email=$.trim($('#card').val());
+	var emp_id=$.trim($('#upd_id').val());
+	if(emp_email=='' || emp_id==""){
+		$("#msg_card").html('');
+					$("#msg_card").css('cursor','default');
+					$("#msg_card").click(function(){
+					});
+		return 1;	
+	}
+	var url="##LBL_SITE_URL##index.php/employee/checkCard";
+	$.post(url,{emp_id:emp_id,emp_email:emp_email,ce:0},function(res){
+		var z=res;
+				if(z==0){
+					$("#msg_card").html('');
+					$("#msg_card").css('cursor','default');
+					$("#msg_card").click(function(){
+					});
+					return 1;
+				}else{
+					$("#msg_card").html("Card dulplicated, click to view employee");
+					$("#msg_card").css('cursor','pointer');
+					$("#msg_card").click(function(){
+						redirectEmployee(z);
+					});
+					return 0;
+				}
+	});
+/*
+	var url="##LBL_SITE_URL##index.php/employee/checkCard/ce-0-emp_email-"+emp_email+"-emp_id-"+emp_id;
+	var httpRequest = new XMLHttpRequest();
+	httpRequest.open('POST', url, false);
+	httpRequest.send(); 
+	if (httpRequest.status == 200) {
+		var z=httpRequest.responseText;
+		if(check_JSsession(z,0)) {
+			if(z!=''){
+				if(z==0){
+					$("#msg_card").html('');
+					$("#msg_card").css('cursor','default');
+					$("#msg_card").click(function(){
+					});
+					return 1;
+				}else{
+					$("#msg_card").html("Card dulplicated, click to view employee");
+					$("#msg_card").css('cursor','pointer');
+					$("#msg_card").click(function(){
+						redirectEmployee(z);
+					});
+					return 0;
+				}
+			}
+		}
+	}	*/
+}
+function redirectEmployee(id){
+	window.location = "##LBL_SITE_URL##index.php/employee/employeeDetail/id-"+id;
+}
+function back(){
+	$("#target").html('');
+	if($.trim($("#is_reset").val())=='1'){
+		var upd_id=$("#upd_id").val();
+		var url="##LBL_SITE_URL##index.php/employee/employeeDetail/";
+		if('{/literal}{$smarty.session.id_company}{literal}'){
+			url+="id-"+upd_id;
+		}
+		window.location="##LBL_SITE_URL##index.php/employee/employeeDetail/";
+	}else{
+		$(".detail").removeClass('edit_detail');
+		$(".temp").addClass('edit_detail');
+	}
+}
+function cancelDetail(){
+	window.location.href="##LBL_SITE_URL##index.php/employee/employeeList";
+}
+function saveEmployee(){
+		var res = personalInfo();
+		cShowActivity('1');
+		document.personal_info.action="##LBL_SITE_URL##index.php/employee/updateEmployee";
+		if(res){
+			document.personal_info.submit();
+		}else{
+			var res = personalInfo();
+		}
+	
+}
+function terminateEmp(){
+	cShowActivity('');
+	var id = $.trim($("#upd_id").val());
+	var url = "##LBL_SITE_URL##index.php/";
+	$.post(url,{page:"employee",choice:"terminateEmp",ce:0,id:id},function(res){
+		show_fancybox(res);
+	});
+}
+function removeCv(cvname,chc){
+	if(chc==''){
+		chc=jqueryConfirm("Do you really want to remove the CV?","removeCv",cvname);
+	}
+	if(chc){
+		var url = "##LBL_SITE_URL##index.php/";
+		cShowActivity('1');
+		$.post(url,{page:"employee",choice:"removeCv",ce:0,cvname:cvname},function(res){
+			if(res == "1"){
+				location.reload();
+			}else{
+				$("#target").html("Failed to remove");
+				cHideActivity();
+			}
+		});
+	}else{
+		return false;
+	}
+}
+function personalInfo(){		
+	var validator_pers_info=$("#personal_info").validate({
+		rules: {
+			"employee[joined_date]": {
+				required:true
+			},
+			"employee[gender]": {
+				required:true
+			}
+		},
+		messages: {
+			"employee[joined_date]":{
+				required:flexymsg.required
+			},
+			"employee[gender]":{
+				required:flexymsg.required
+			}
+		}
+	});
+	return validator_pers_info.form();
+}
+</script>
+
+<script type="text/javascript">
+	function onClick_ckBtn(){
+		try{
+
+			var container = $('#check_card_container');
+			container.html('Loading...');
+			var url="##LBL_SITE_URL##manage.php?action=ck_emp";
+			$.getJSON(url, function(data) {
+				var str = '';
+				$.each(data, function(index, item){
+					str += '<div style="padding:3px;cursor:pointer;" onmouseover="onOver_empListItem(this)" onmouseout="onOut_empListItem(this)" onclick="onClick_empListItem(this)">'+item+'</div>';
+				});
+				if(!str) str = 'No card available';
+				container.html(str);
+			}).error(function() { container.html('error'); });
+		}catch(e){}
+	}
+	function onOver_empListItem(obj){
+		$(obj).css({
+			'background-color':'#bbbbff'
+		});
+	}
+	function onOut_empListItem(obj){
+		$(obj).css({
+			'background-color':'transparent'
+		});
+	}
+	function onClick_empListItem(obj){
+		$('#card').val($(obj).html());
+	}
+
+</script>
+<style type="text/css">
+	.edit_detail{ display:none ;}
+	select,option { text-transform : capitalize ;}
+	
+	#personal_info .text {
+		width:250px;
+		margin-right:10px;
+		padding:3px;
+		border:1px solid #ccc;
+		letter-spacing:1px;
+	}
+	#personal_info select {
+		border:1px solid #ccc;
+		width:259px;	
+		padding:4px;
+	}
+	
+.update_btn{
+	background-image:url('##LBL_SITE_URL##templates/images/blue/login2.png?i=0');
+	background-repeat:no-repeat;
+	width:126px;
+}
+.update_btn:hover{
+	background-image:url('##LBL_SITE_URL##templates/images/blue/login2_cover.png?i=0');
+	background-repeat:no-repeat;
+	width:126px;
+}
+</style>
+{/literal}

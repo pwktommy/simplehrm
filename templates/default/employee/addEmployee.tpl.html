@@ -1,0 +1,716 @@
+{assign var=gender value=$util->get_values_from_config('GENDER')}
+{assign var=emp_sts value=$sm.emp_sts}
+{assign var=currency value=$util->get_values_from_config('CURRENCY')}
+{assign var=pay_frequency value=$util->get_values_from_config('PAY_FREQUENCY')}
+{literal}
+<style type="text/css" media="screen">
+.req{color:red;}  
+</style>
+<style type="text/css">
+body,td,th {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.update_btn{
+	background-image:url('##LBL_SITE_URL##templates/images/blue/login2.png?i=0');
+	background-repeat:no-repeat;
+	width:126px;
+}
+.update_btn:hover{
+	background-image:url('##LBL_SITE_URL##templates/images/blue/login2_cover.png?i=0');
+	background-repeat:no-repeat;
+	width:126px;
+}
+</style>
+{/literal}
+<link rel="stylesheet" type="text/css" href="##LBL_SITE_URL##templates/css_theme/scroll.css"/>
+<input type="hidden" name="step" id="step" value="3">
+<!--  ******************************** PERSONAL INFO ***********************************  -->
+
+<div style="width:1200px;height:700px;">
+    <div class="modal_heading">
+        <div class="lft fltlft"></div>
+        <div class="mdl fltlft" style="width:800px;">
+            Add Employee
+        </div>
+        <div class="rht fltlft"></div>
+        <div class="clear"></div>
+    </div>
+    <div class="modal_body" style="padding:0px;">
+
+
+	<div id="wizard" style="width:1200px;height:700px;">
+    <ul id="status">
+    <li class="active"><strong>1. Card details</strong></li>
+  </ul>
+	  <div class="items">
+      <div class="page" style="width:1200px">
+
+	<form id="personal_info" name="personal_info" method="post" action="javascript:void(0);" >
+		<table>
+			<tr>
+				<td width="110" height="24" valign="top">
+					<strong>Staff ID:</strong></td>
+				<td width="369"><input type="text" name="staff_id" tabindex="1" value="" id="staff_id2" class="text" style="width:180px"/></td>
+				<td width="110" height="24" valign="top"><b>Site/Device: </b></td>
+				<td colspan="3"><select id="dg" tabindex="12" name="dg" style="width:180px">
+		      <option value="" selected="selected">----------- Select  -----------</option>
+				  
+						{html_options options=$sm.dg selected=''}
+					
+			    </select></td>
+			</tr>
+            
+            <tr>
+				<td height="24" valign="top">
+					<b>First Name: <span class="req">*</span></b>
+				</td>
+				<td>
+					<input type="text" tabindex="2" name="employee[firstname]" value="" id="firstname" class="text" style="width:360px"/>
+				</td>
+				<td height="24" valign="top"><b>Card #: </b></td>
+				<td colspan="3"><input type="text" name="employee[card]"  tabindex="13" value="" id="card" class="text" onblur="return checkCard();" style="width:180px"/></td>
+			</tr>
+			<tr>
+				<td height="24" valign="top">
+					<b>Last Name: </b>
+				</td>
+				<td>
+					<input type="text" tabindex="3" name="employee[lastname]" value="" id="lastname" class="text" style="width:360px"/>
+				</td>
+				<td height="24" valign="top"><b>Release Date: <span class="req">*</span></b></td>
+				<td colspan="3"><input type="text" name="joined_date" tabindex="14" value="" id="joined_date" class="text" onchange="rem_msg();"  style="width:180px" /></td>
+			</tr>
+			<tr>
+				<td height="24" valign="top">
+					<b>Gender: </b>
+				</td>
+				<td align="left" class="tbl_radio">
+					{html_radios name="employee[gender]" options=$gender selected="M" separator="" }</td>
+				<td height="24" valign="top"><b>Card Status: <span class="req">*</span></b></td>
+				<td colspan="3"><select name="employee[emp_status]"  tabindex="15" id="emp_status"  style="width:180px" >
+				  
+				  
+				  
+				  
+						{html_options options=$emp_sts selected=''}
+					
+			    
+				  
+			    
+			    </select></td>
+			</tr>
+			<tr>
+				<td height="24" valign="top"><b>AD Account: </b></td>
+				<td><input type="text" name="employee[ad_account_id]" value="" tabindex="4" id="ad_account_id" class="text" onblur="return checkAccountID();" style="width:360px"/></td>
+				<td height="24" valign="top"><b>Password: </b></td>
+				<td colspan="3"><input type="text" name="employee[ad_password]" tabindex="16" value="" id="ad_password" class="text" style="width:180px"/></td>
+			  </tr>
+			<tr>
+				<td height="24" valign="top"><b>Title:</b></td>
+				<td><p><span id="msg_ad_account_id" class="error"></span>
+				  <input type="text" name="employee[job_title]" tabindex="5" value="" id="job_title" class="text" style="width:360px"/>
+				<td width="110" height="24" rowspan="2" valign="middle"><b>Time Schedule:</b></td>
+				<td width="180" rowspan="2" valign="middle"><p>Weekday
+				    <br />
+				    <select id="tz1" name="tz1" class="tz"  tabindex="17" style="width:175px;" onchange="onChange_normal()">
+				      <option value=""></option>
+				      
+				    
+				        
+				        
+								{html_options options=$sm.tz selected='' }
+							
+				        
+				        
+		        
+			      </select>
+		        </p></td>
+				<td width="184" rowspan="2" valign="middle"><p>Date<br />
+<select id="tz3" name="tz3" class="tz"  tabindex="18" style="width:175px;">
+			      <option value=""></option>
+				    
+				    
+				        
+				        
+								{html_options options=$sm.tz2 selected='' }
+							
+			          
+				        
+		        
+		        </select></p></td>
+				<td width="9" rowspan="2">&nbsp;</td>
+				<!--
+				
+				rowspan by site
+				
+				-->
+			</tr>
+			<tr>
+			  <td height="24" valign="top"><b>Mobile:</b></td>
+			  <td><input type="text" name="employee[mobile_phone]" tabindex="6" value="" id="mobile_phone" class="text" style="width:180px"/>                            
+		    </tr>
+			<tr>
+				<td height="24" valign="top"><b>Company: <span class="req">*</span></b></td>
+				<td><span class="error">
+				  <select name="employee[division]" id="division" tabindex="7" onchange="showCascade(this,'department','team','job_title','1');"  style="width:360px;height:24px" >
+				    <option value="">-------------------------------- Select  --------------------------------</option>
+				    
+			      
+				    
+						{html_options options=$sm.division selected=''}
+					
+			      
+			      
+			    </select>
+				</span></td>
+				<td rowspan="5" valign="top"><b>Memo: </b></td>
+				<td colspan="2" rowspan="5" valign="top"><textarea name="memo" id="memo" tabindex="19" style="width:360px;height:154px;"></textarea></td>
+				<td rowspan="5" valign="top">&nbsp;</td>
+				<!--
+				
+				rowspan by site
+				
+				-->
+			</tr>
+			<tr>
+			  <td height="24" valign="top"><b>Department: <span class="req">*</span></b></td>
+			  <td><select name="employee[department]" id="department"  style="width:360px" tabindex="8" onchange="showCascade(this,'team','job_title','','2');">
+			    <option value="">-------------------------------- Select  --------------------------------</option>
+			    
+				  
+				  
+						{html_options options=$sm.department selected='' }
+					
+			    
+			    
+		      </select></td>
+			  </tr>
+			<tr>
+				<td height="24"><b>Team: </b></td>
+				<td><input type="text" name="employee[team]" tabindex="9" value="" id="team" class="text" style="width:360px"/></td>
+				<!--
+				
+				rowspan by site
+				
+				-->
+			</tr>
+			<tr>
+				<td height="24" valign="top"><b>Section: </b></td>
+				<td><input type="text" name="employee[section]" tabindex="10" value="" id="section" class="text" style="width:360px"/></td>
+				<!--
+				
+				rowspan by site
+				
+				-->
+			</tr>
+			<tr>
+				<td height="52" valign="top"><b>Address:</b></td>
+				<td valign="top"><textarea name="employee[address]" id="address" style="width:360px;height:50px;" tabindex="11"></textarea></td>
+				<!--
+				
+				rowspan by site
+				
+				-->
+			</tr>
+			</table>
+		
+		<p>
+		  <input type="hidden" name="employee[work_email]" value="" id="work_email" class="text" onblur="return checkEmail();"/>
+		</p>
+		<p>&nbsp; </p>
+		<ul style="width:1150px">
+		  <li class="clearfix" style="text-align:center">
+		     <button type="reset" tabindex="22" class="prev login_btn blank_btn">Blank Form</button> 
+		     &nbsp;    &nbsp;    &nbsp;    &nbsp;
+		     <button type="button" tabindex="20" class="next login_btn">Save</button>
+		     &nbsp;    &nbsp;    &nbsp;    &nbsp;
+             <button type="update" tabindex="21" class="login_btn update_btn">Update card reader</button>
+	        </li>
+		</ul>
+		<input type="hidden" id="is_update_device" name="is_update_device" value="" />
+	</form>
+   </div><!--step3-->
+ </div>
+
+
+
+</div>
+
+	</div>
+</div>
+
+{literal}
+<style>
+.site_cat{
+	width:210px;
+	padding:2px 2px;
+}
+.site_cat_name{
+	height:20px;
+	line-height:20px;
+	border:1px solid #cccccc;
+	cursor:pointer;
+}
+.site_cat_name:hover{
+	background-color:#eeeeff;
+}
+.device_list{
+	display:none;
+	padding-left:20px;
+}
+.device_list table{
+	padding:4px;
+	margin:0;
+}
+.device_list td{
+	height:20px;
+	line-height:20px;
+}
+#personal_info table td input{
+	min-width:30px;
+}
+</style>
+
+<script type="text/javascript">
+
+	function onChange_tg(obj){
+		var ve = $(obj).val();
+		if(!ve){
+			$('.tz').fadeIn(200);
+		}else{
+			$('.tz').fadeOut(200);
+		}
+	}
+	function onChange_normal(){
+		var val = $('#tz1').val();
+		if(val==50){
+			//$('#tz2').val('');
+			//$('#tz2').fadeOut(200);
+			$('#tz3').val('');
+			$('#tz3').fadeOut(200);
+		}else{
+			//$('#tz2').fadeIn(200);
+			$('#tz3').fadeIn(200);
+		}
+	}
+	function onClick_ckBtn(){
+		try{
+			var dg = $('#dg').val();
+			if(!dg){
+				alert('Select Site/Device first');
+				return 0;
+			}
+
+			var container = $('#check_card_container');
+			container.html('Loading...');
+			var url="##LBL_SITE_URL##manage.php?action=ck_emp&gid="+dg;
+			$.getJSON(url, function(data) {
+				var str = '';
+				$.each(data, function(index, item){
+					str += '<div style="padding:3px;cursor:pointer;" onmouseover="onOver_empListItem(this)" onmouseout="onOut_empListItem(this)" onclick="onClick_empListItem(this)">'+item+'</div>';
+				});
+				container.html(str);
+			});
+		}catch(e){}
+	}
+	function onOver_empListItem(obj){
+		$(obj).css({
+			'background-color':'#bbbbff'
+		});
+	}
+	function onOut_empListItem(obj){
+		$(obj).css({
+			'background-color':'transparent'
+		});
+	}
+	function onClick_empListItem(obj){
+		$('#card').val($(obj).html());
+	}
+
+</script>
+<script type="text/javascript">
+
+
+
+
+
+forminfo("#personal_info,#emergency_contact,#job_info");
+$(document).ready(function(){
+	$('#dob').datepicker({dateFormat:'dd-mm-yy',changeMonth:true,changeYear:true,yearRange:"1911:2011"});
+	$('#joined_date').datepicker({dateFormat:'dd-mm-yy',changeMonth:true,changeYear:true,yearRange:"-100:+40"});
+	$("#card").autocomplete(
+	'##LBL_SITE_URL##index.php/employee/autoCard/ce-0-for-auto',
+	{
+    width: 200,
+    max: 120,
+    matchContains:"word",
+    scrollHeight: 300,
+    selectFirst: false,
+    extraParams:{'lang':'address'},
+    autoFill:false,
+    parse: function(data) {
+        return $.map(eval(data), function(row) {
+            return {data: row,value: row.card_number,result: row.card_number}
+        }); //对ajax页面传过来的数据进行json转码
+    },
+    formatItem:function(row, i, max) {
+      return row.card_number;
+    },
+    formatMatch: function(row, i, max) {
+      return row.card_number;
+    },
+    formatResult: function(row,v) {
+      return row.card_number;
+    }
+	});
+	/*
+	$('.tz').each(function(index, item){
+		var str  = '';
+		for(i=1;i<=50;i++){
+			str += '<option value="'+i+'">TimeZone '+i+'</option>';
+		}
+		$(item).html(str);
+	});*/
+	$('.blank_btn').unbind('click');
+	$('.blank_btn').click(function(){
+		$('.items .page input').val('');
+		$('.items .page select').val('').fadeIn(200);
+		$('.items .page textarea').val('');
+		$('.items .page .tbl_radio').each(function(index, item){
+			var inObj = $(item).find('input');
+			inObj[0].click();
+		}); 
+	});
+
+	$('.update_btn').click(function(){
+		var tz = $('#tz1').val();
+		var cs = $('#emp_status').val();
+		var c_no = $('#card').val();
+		var site = $('#dg').val();
+		if(!tz || !cs || !c_no || !site){
+			alert('Weekday, Card Status, Card #, Site/Device must not empty');
+		}else{
+			$('#is_update_device').val('1');
+			$('.next').click();
+		}
+	});
+});
+/* for scrollig style */
+$(function() {
+	var root = $("#wizard").scrollable();
+
+	// some variables that we need
+	var api = root.scrollable();
+	
+	// validation logic is done inside the onBeforeSeek callback
+	api.onBeforeSeek(function(event, i) {
+		// we are going 1 step backwards so no need for validation
+		if (api.getIndex() < i) {
+			/* Start of validation */
+			var step=parseInt($.trim($("#step").val()));
+			if(step == 1){
+				var res = personalInfo();
+				if(res){
+					$("#step").val(2);
+				}else{
+					return false;
+				}
+			}else if(step == 2){
+				var res = emergencyContact();
+				if(res){
+					var chk=checkEmail();
+					if(chk){
+						$("#step").val(3);
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}
+			}else if(step == 3){
+			  var res = personalInfo();
+				if(res){
+					cShowActivity('2');
+					var data1=$("#personal_info").serialize();
+					//var data2=$("#emergency_contact").serialize();
+					//var data3=$("#job_info").serialize();
+					var url="##LBL_SITE_URL##index.php/employee/insertEmployee?"+data1;
+					$.post(url,{ce:0},function (res){
+						var flg="{/literal}{$sm.flg}{literal}";
+						if(flg!='dash'){
+							var url="##LBL_SITE_URL##index.php/page-employee-choice-employeeList-ce-0-chk-1-msg-"+res;
+							var httpRequest = new XMLHttpRequest();
+							httpRequest.open('POST', url, false);
+							httpRequest.send(); 
+							if (httpRequest.status == 200) {
+								var z=httpRequest.responseText;
+								$("#employee_employeeList").html(z);
+								$.fancybox.close();
+								cHideActivity();
+							}
+						}else{
+							location.reload(true);
+							callmsg(res);
+						}
+					});
+				}else
+					return false;
+			}
+			/* End */
+		}else{
+			step=parseInt($.trim($("#step").val()));
+			$("#step").val(step-1);
+		}
+		// update status bar
+		$("#status li").removeClass("active").eq(i).addClass("active");
+
+	});
+	// if tab is pressed on the next button seek to next page
+	root.find("button.next").keydown(function(e) {
+		if (e.keyCode == 9) {
+			return false;
+		}
+	});
+});
+/* Scrolling style End */ 
+function showStateCity(obj,id1,id2,lvl){
+	var id = obj.value;
+	var url = "##LBL_SITE_URL##index.php/";
+	$.post(url,{page:"employee",choice:"showStateCity",ce:0,id:id,flg:id1},function(res){
+		$('#'+id1).html(res);
+		if(lvl==1){
+			$('#'+id2).html('<option value="">-------------------------------- Select  --------------------------------</option>');
+		}
+	});
+	var x=obj.selectedIndex;
+	if(x!=0){
+		obj.options[x].value=obj.options[x].text;
+	}
+}
+function putCityValue(obj){
+	var x=obj.selectedIndex;
+	if(x!=0){
+		obj.options[x].value=obj.options[x].text;
+	}
+}
+function showCascade(obj,id1,id2,id3,lvl){
+	var id = obj.value;
+	var url = "##LBL_SITE_URL##index.php/";
+	$.post(url,{page:"employee",choice:"showDepartmentTeamJob",ce:0,id:id,flg:id1},function(res){
+		$('#'+id1).html(res);
+		if(lvl==1){
+			$('#'+id2).html('<option value="">-- Select --</option>');
+			$('#'+id3).html('<option value="">-- Select --</option>');
+		}else if(lvl==2){
+			$('#'+id3).html('<option value="">-- Select --</option>');
+		}
+	});
+}
+function checkEmail(){
+	var emp_email=$.trim($('#work_email').val());
+	if(emp_email==''){
+		$("#msg_work_email").html('');
+		return 1;	
+	}
+	var url="##LBL_SITE_URL##index.php/employee/checkEmail/ce-0-emp_email-"+emp_email;
+	var httpRequest = new XMLHttpRequest();
+	httpRequest.open('POST', url, false);
+	httpRequest.send(); 
+	if (httpRequest.status == 200) {
+		var z=httpRequest.responseText;
+		if(check_JSsession(z,0)) {
+			if(z!=''){
+				if(z==0){
+					$("#msg_work_email").html('');
+					return 1;
+				}else{
+					$("#msg_work_email").html('<br>This email id already exists.');
+					return 0;
+				}
+			}
+		}
+	}	
+}
+
+function checkAccountID(){
+	var emp_email=$.trim($('#ad_account_id').val());
+	if(emp_email==''){
+		$("#msg_ad_account_id").html('');
+		return 1;	
+	}
+	var url="##LBL_SITE_URL##index.php/employee/checkAccountID/ce-0-emp_email-"+emp_email;
+	var httpRequest = new XMLHttpRequest();
+	httpRequest.open('POST', url, false);
+	httpRequest.send(); 
+	if (httpRequest.status == 200) {
+		var z=httpRequest.responseText;
+		if(check_JSsession(z,0)) {
+			if(z!=''){
+				if(z==0){
+					$("#msg_ad_account_id").html('');
+					return 1;
+				}else{
+					$("#msg_ad_account_id").html('<br>This Ad Account ID id already exists.');
+					return 0;
+				}
+			}
+		}
+	}	
+}
+function checkCard(){
+	var emp_email=$.trim($('#card').val());
+	if(emp_email==''){
+		$("#msg_card").html('');
+					$("#msg_card").css('cursor','default');
+					$("#msg_card").click(function(){
+					});
+		return 1;	
+	}
+	var url="##LBL_SITE_URL##index.php/employee/checkCard/ce-0-emp_email-"+emp_email;
+	var httpRequest = new XMLHttpRequest();
+	httpRequest.open('POST', url, false);
+	httpRequest.send(); 
+	if (httpRequest.status == 200) {
+		var z=httpRequest.responseText;
+		if(check_JSsession(z,0)) {
+			if(z!=''){
+				if(z==0){
+					$("#msg_card").html('');
+					$("#msg_card").css('cursor','default');
+					$("#msg_card").click(function(){
+					});
+					return 1;
+				}else{
+					$("#msg_card").html("Card dulplicated, click to view employee");
+					$("#msg_card").css('cursor','pointer');
+					$("#msg_card").click(function(){
+						redirectEmployee(z);
+					});
+					return 0;
+				}
+			}
+		}
+	}	
+}
+function redirectEmployee(id){
+	window.location = "##LBL_SITE_URL##index.php/employee/employeeDetail/id-"+id;
+}
+
+function rem_msg(){
+	if ( $("#joined_date").val() != '' ) {
+		$('#job_info').find('label[for="joined_date"]').html('');
+	}
+}
+function personalInfo(){		
+	var validator_pers_info=$("#personal_info").validate({
+		rules: {
+			"employee[firstname]": {
+				required:true
+			},
+			"employee[division]": {
+				required:true
+			},
+			"employee[department]": {
+				required:true
+			},
+			"employee[emp_status]": {
+				required:true
+			}
+			
+		},
+		messages: {
+			"employee[firstname]":{
+				required:'<br>This field is required.'
+			},
+			"employee[division]":{
+				required:'<br>This field is required.'
+			},
+			"employee[department]":{
+				required:'<br>This field is required.'
+			},
+			"employee[emp_status]": {
+				required:'<br>This field is required.'
+			}
+		}
+	});
+	return validator_pers_info.form();
+}
+function emergencyContact(){
+	validator_emer_cont=$("#personal_info").validate({
+		rules: {
+			"employee[work_email]": {
+				required:true,
+				email:true
+			},
+			"employee[other_email]": {
+				email:true
+			}
+		},
+		messages: {
+			"employee[work_email]":{
+				required:'<br>This field is required.',
+				email:'Please enter a valid email address.'
+			},
+			"employee[other_email]":{
+				email:'Please enter a valid email address.'
+			}
+		}
+	});
+	return validator_emer_cont.form();
+}
+function jobInfo(){
+	validator_job_info=$("#personal_info").validate({
+		rules: {
+			"employee[division]": {
+				required:true
+			},
+			"employee[department]": {
+				required:true
+			},
+			"employee[emp_status]": {
+				required:true
+			},
+			"joined_date": {
+				required:true
+			},
+			"employee[salary]": {
+				required:true,
+				number:true
+			}
+		},
+		messages: {
+			"employee[division]":{
+				required:'<br>This field is required.'
+			},
+			"employee[department]":{
+				required:'<br>This field is required.'
+			},
+			"employee[emp_status]": {
+				required:'<br>This field is required.'
+			},
+			"joined_date": {
+				required:'<br>This field is required.'
+			},
+			"employee[salary]": {
+				required:'<br>This field is required.',
+				number:'<br>Please give a valid salary'
+			}
+		}
+	});
+	return validator_job_info.form();
+}
+</script>
+<style type="text/css">
+	select,option { text-transform : capitalize ;}
+	span.error	{
+		color:#FF0000;
+		font-size:12px;
+		clear:both;
+	}
+	.staff_id_error{
+		color:red;
+		clear:both;
+	}
+</style>
+{/literal}
